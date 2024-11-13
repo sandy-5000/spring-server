@@ -1,10 +1,10 @@
 package com.darkube.server.types;
 
-public class Server {
+public class Message {
     
     private String message;
     
-    public Server(String message) {
+    public Message(String message) {
         this.message = message;
     }
     

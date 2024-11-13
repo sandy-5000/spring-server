@@ -1,37 +1,39 @@
 package com.darkube.server.controllers;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.darkube.server.types.DynamicObject;
-import com.darkube.server.types.Server;
+import com.darkube.server.types.Message;
 
 @RestController
 public class MainController {
 
-    @GetMapping("/api")
-    public Server getMethodName() {
+    @GetMapping(value = "/api", produces = "application/json")
+    public Message getMethodName() {
 
-        return new Server("Server [Darkube]");
+        return new Message("Server [Darkube]");
 
     }
 
     @GetMapping(value = "/api/_____", produces = "application/json")
-    public Map<String, Object> home(/* @RequestParam String param */) {
+    public HashMap<String, Object> home(/* @RequestParam String param */) {
 
         DynamicObject object = new DynamicObject();
         try {
             object.put("message", "Server [Darkube]");
-            object.put("details.name", "sandy-blaze");
+            object.put("details.name", "__________");
             object.put("details.age", 3000);
-            Map<String, Object> profile = new HashMap<>();
-            profile.put("github", "github.com/sandy-5000");
-            profile.put("linkedIn", "linkedin.com/in/sandeep-kumar-bhaviri");
+            HashMap<String, Object> profile = new HashMap<>();
+            profile.put("github", "github.com/_______");
+            profile.put("linkedIn", "linkedin.com/xx/_______");
             object.put("details.profile", profile);
+            object.put("details.phone", new String[] { "", "(000) 000-000" });
+            String[] phoneNumbers = (String [])object.get("details.phone");
+            phoneNumbers[0] = "0000000000";
         } catch (Exception e) {
             e.printStackTrace();
         }
