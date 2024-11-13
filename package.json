@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "dev": "nodemon restart-gradle.js"
+  },
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
