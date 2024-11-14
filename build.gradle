@@ -36,3 +36,8 @@ tasks.named('bootRun') {
         println 'Starting Spring Boot application with hot reload enabled'
     }
 }
+
+bootJar {
+    archiveBaseName  = 'darkube-server'
+    version =  '0.1.0'
+}

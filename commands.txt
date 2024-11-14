@@ -1,0 +1,9 @@
+
+# build
+./gradlew build
+
+# build jar
+./gradlew bootJar
+
+# run jar
+java -jar build/libs/darkube-server-0.1.0.jar
