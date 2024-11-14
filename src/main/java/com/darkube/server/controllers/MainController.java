@@ -3,49 +3,59 @@ package com.darkube.server.controllers;
 import java.util.HashMap;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.darkube.server.types.DynamicObject;
+import jakarta.servlet.http.HttpServletRequest;
+
 import com.darkube.server.types.Message;
+import com.darkube.server.types.DynamicObject;
 
 @RestController
 public class MainController {
 
     @GetMapping(value = "/api", produces = "application/json")
-    public Message getMethodName() {
+    public Message root() {
 
         return new Message("Server [Darkube]");
 
     }
 
     @GetMapping(value = "/api/_____", produces = "application/json")
-    public HashMap<String, Object> home(/* @RequestParam String param */) {
+    public HashMap<String, Object> _____(/* @RequestParam String param */) {
 
-        DynamicObject object = new DynamicObject();
         try {
-            object.put("message", "Server [Darkube]");
-            object.put("details.name", "__________");
-            object.put("details.age", 3000);
-            HashMap<String, Object> profile = new HashMap<>();
+
+            DynamicObject profile = new DynamicObject();
             profile.put("github", "github.com/_______");
-            profile.put("linkedIn", "linkedin.com/xx/_______");
-            object.put("details.profile", profile);
-            object.put("details.phone", new String[] { "", "(000) 000-000" });
-            String[] phoneNumbers = (String [])object.get("details.phone");
-            phoneNumbers[0] = "0000000000";
+            profile.put("gitlab", "gitlab.com/_______");
+
+            DynamicObject details = new DynamicObject();
+            details.put("name", "__________");
+            details.put("age", 3000);
+            details.put("phone", new String[] { "000-000-000", "(000) 000-000" });
+            details.put("profile", profile.map());
+
+            DynamicObject response = new DynamicObject();
+            response.put("message", "Server [Darkube]");
+            response.put("details", details.map());
+
+            return response.map();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return object.map();
+        return new HashMap<>();
 
     }
 
-    @GetMapping(value = "/api/{resourceId}", produces = "application/json")
-    public String resourceId(@PathVariable String resourceId) {
-
-        return "Received: " + resourceId;
-
+    @RequestMapping(value = "/**", produces = "application/json")
+    @ResponseBody
+    public Message notFound(HttpServletRequest request) {
+        String route = request.getRequestURI();
+        String method = request.getMethod();
+        return new Message("404 - `" + "Method: " + method + "` `Route: " + route + "` not avaliable");
     }
 
 }
