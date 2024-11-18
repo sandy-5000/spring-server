@@ -8,6 +8,7 @@ build/
 node_modules
 package-lock.json
 prod-server/*.jar
+.env
 
 ### STS ###
 .apt_generated

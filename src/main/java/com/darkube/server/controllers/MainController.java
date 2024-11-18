@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import com.darkube.server.types.Message;
 import com.darkube.server.types.DynamicObject;
+import com.darkube.server.types.Message;
 
 @RestController
 public class MainController {
@@ -24,7 +24,6 @@ public class MainController {
 
     @GetMapping(value = "/api/_____", produces = "application/json")
     public HashMap<String, Object> _____(/* @RequestParam String param */) {
-
         try {
 
             DynamicObject profile = new DynamicObject();
@@ -37,9 +36,13 @@ public class MainController {
             details.put("phone", new String[] { "000-000-000", "(000) 000-000" });
             details.put("profile", profile.map());
 
+            DynamicObject server = new DynamicObject();
+            server.put("port", System.getProperty("port"));
+
             DynamicObject response = new DynamicObject();
             response.put("message", "Server [Darkube]");
             response.put("details", details.map());
+            response.put("server", server.map());
 
             return response.map();
 

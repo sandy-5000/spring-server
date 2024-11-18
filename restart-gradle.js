@@ -2,7 +2,7 @@ import { exec, spawn } from "child_process"
 
 let gradleProcess
 
-exec('rm hs_err_*.log')
+exec("rm hs_err_*.log")
 
 function startGradleProcess() {
   gradleProcess = spawn("./gradlew", ["bootRun"], { stdio: "inherit" })
@@ -31,17 +31,17 @@ function restartServer() {
   startGradleProcess()
 }
 
-startGradleProcess();
+startGradleProcess()
 
 process.on("message", (message) => {
-  if (message === "r") {
+  if (message === "reload") {
     console.log("Changes detected, restarting Gradle process...")
     restartServer()
   }
 })
 
-process.on('SIGINT', () => {
-  console.log('Received SIGINT (Ctrl-C), shutting down...')
+process.on("SIGINT", () => {
+  console.log("Received SIGINT (Ctrl-C), shutting down...")
   stopGradleProcess()
   process.exit()
 })
