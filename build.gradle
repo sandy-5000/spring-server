@@ -23,6 +23,7 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	// Add Spring Boot DevTools for automatic restarts and live reload
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

@@ -13,6 +13,9 @@ public class Application {
 		try {
 			Dotenv dotenv = Dotenv.load();
 			System.setProperty("port", dotenv.get("PORT"));
+			System.setProperty("salt", dotenv.get("SALT"));
+			System.setProperty("mongo", dotenv.get("MONGOBD"));
+			System.setProperty("database", dotenv.get("DATABASE"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
