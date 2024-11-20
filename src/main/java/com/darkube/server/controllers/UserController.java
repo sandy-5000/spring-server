@@ -1,6 +1,7 @@
 package com.darkube.server.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,10 +26,16 @@ public class UserController {
     }
 
     @PostMapping(value = "/api/user/register", produces = "application/json")
-    public User register(@RequestBody User user) {
+    public Object register(@RequestBody User user) {
 
-        userRepository.save(user);
-        return user;
+        try {
+            userRepository.save(user);
+            return user;
+        } catch (DataAccessException e) {
+            return new Message(e.getMessage());
+        } catch (Exception e) {
+            return new Message(e.getMessage());
+        }
 
     }
 
