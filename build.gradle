@@ -25,6 +25,9 @@ dependencies {
 	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
+	compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
 	// Add Spring Boot DevTools for automatic restarts and live reload
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }

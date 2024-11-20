@@ -9,16 +9,15 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
 		try {
 			Dotenv dotenv = Dotenv.load();
 			System.setProperty("port", dotenv.get("PORT"));
 			System.setProperty("salt", dotenv.get("SALT"));
-			System.setProperty("mongo", dotenv.get("MONGOBD"));
-			System.setProperty("database", dotenv.get("DATABASE"));
+			System.setProperty("mongo", dotenv.get("MONGODB"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		SpringApplication.run(Application.class, args);
 	}
 
 }
