@@ -9,5 +9,6 @@ RUN ./gradlew bootJar --no-daemon
 FROM openjdk:17-jdk-slim
 EXPOSE 8080
 COPY --from=build /build/libs/darkube-server-0.1.0.jar darkube-server.jar
+COPY --from=build .env .
 
 ENTRYPOINT ["java", "-jar", "darkube-server.jar"]
