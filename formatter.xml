@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profiles version="8.0">
+    <profile name="CustomJavaStyle" kind="CodeFormatter">
+        <setting id="org.eclipse.jdt.core.formatter.lineSplit" value="86"/>
+    </profile>
+</profiles>

@@ -1,4 +1,9 @@
 {
   "editor.formatOnSave": true,
+  "editor.rulers": [
+    86
+  ],
+  "java.format.comments.enabled": true,
+  "java.format.settings.url": "formatter.xml",
   "java.configuration.updateBuildConfiguration": "interactive"
 }

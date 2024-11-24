@@ -12,7 +12,7 @@ public class Application {
 		try {
 			Dotenv dotenv = Dotenv.load();
 			System.setProperty("port", dotenv.get("PORT"));
-			System.setProperty("salt", dotenv.get("SALT"));
+			System.setProperty("jwt", dotenv.get("JWT_SECRET"));
 			System.setProperty("mongo", dotenv.get("MONGODB"));
 		} catch (Exception e) {
 			e.printStackTrace();

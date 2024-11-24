@@ -58,7 +58,8 @@ public class MainController {
     public Message notFound(HttpServletRequest request) {
         String route = request.getRequestURI();
         String method = request.getMethod();
-        return new Message("404 - `" + "Method: " + method + "` `Route: " + route + "` not avaliable");
+        String message = "404 - `Method: %s` `Route: %s` not avaliable";
+        return new Message(String.format(message, method, route));
     }
 
 }
