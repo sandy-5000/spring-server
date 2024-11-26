@@ -6,10 +6,16 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
+enum UserRole {
+    USER, ADMIN, SUPER_ADMIN
+}
 
 @Data
 @NoArgsConstructor
@@ -28,6 +34,9 @@ public class User {
 
     private String name;
     private String passwd;
+
+    @Field(name = "user_role", targetType = FieldType.STRING)
+    private UserRole userRole = UserRole.USER;
 
     public static void createIndexes(MongoTemplate mongoTemplate) {
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.darkube.server.types.LoginBody;
 import com.darkube.server.types.Message;
 import com.darkube.server.models.User;
+import com.darkube.server.services.JwtService;
 import com.darkube.server.services.collections.UserService;
 
 @RestController
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    JwtService jwtService;
 
     @PostMapping(value = "/api/user/login", produces = "application/json")
     public Object login(@RequestBody LoginBody body) {
@@ -52,7 +56,13 @@ public class UserController {
     @GetMapping(value = "/api/user/{username}", produces = "application/json")
     public Optional<User> profile(@PathVariable String username) {
 
-        return userService.get(username);
+        Optional<User> user = userService.get(username);
+        if (user.isPresent()) {
+            final String token = jwtService
+                    .generateToken(user.get());
+            jwtService.verify(token, username);
+        }
+        return user;
 
     }
 
