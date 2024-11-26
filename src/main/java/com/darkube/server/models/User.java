@@ -1,5 +1,7 @@
 package com.darkube.server.models;
 
+import java.util.HashMap;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -50,6 +52,16 @@ public class User {
             mongoTemplate.indexOps(User.class).ensureIndex(index);
         }
 
+    }
+
+    public HashMap<String, Object> entries() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("_id", get_id());
+        map.put("username", getUsername());
+        map.put("email", getEmail());
+        map.put("name", getName());
+        map.put("user_role", getUserRole().toString());
+        return map;
     }
 
 }

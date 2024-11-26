@@ -49,14 +49,37 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public boolean verify(String token, String username) {
-        Jws<Claims> user = Jwts.parser().verifyWith(getKey()).build()
+    public boolean verify(String token) {
+        try {
+            return extractUsername(token) != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public String extractUsername(String token) {
+        return Jwts.parser().verifyWith(getKey()).build()
+                .parseSignedClaims(token).getPayload().getSubject();
+    }
+
+    public String extractEmail(String token) {
+        Jws<Claims> user = Jwts.parser()
+                .verifyWith(getKey()).build()
                 .parseSignedClaims(token);
         Object email = user.getPayload().get("email");
-        Object userRole = user.getPayload().get("role");
-        System.out.println((String) email);
-        System.out.println((String) userRole);
-        return user.getPayload().getSubject().equals(username);
+        return (String) email;
+    }
+
+    public HashMap<String, Object> extractClaims(String token) {
+        Jws<Claims> jwsClaims = Jwts.parser()
+                .verifyWith(getKey()).build()
+                .parseSignedClaims(token);
+        HashMap<String, Object> map = new HashMap<>();
+        Claims claims = jwsClaims.getPayload();
+        claims.forEach((key, value) -> {
+            map.put(key, value);
+        });
+        return map;
     }
 
 }

@@ -31,9 +31,6 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
-	// Add Spring Boot DevTools for automatic restarts and live reload
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 tasks.named('test') {
@@ -43,7 +40,7 @@ tasks.named('test') {
 tasks.named('bootRun') {
     // Optionally, enable continuous build support with Gradle's watch mode
     doFirst {
-        println 'Starting Spring Boot application with hot reload enabled'
+        println 'Starting Spring Boot application is running'
     }
 }
 

@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.darkube.server.models.User;
+
 public class DynamicObject {
 
     private HashMap<String, Object> dynamicObject;
@@ -41,7 +43,8 @@ public class DynamicObject {
                 || value instanceof Integer
                 || value instanceof Float
                 || value instanceof Double
-                || value instanceof String;
+                || value instanceof String
+                || value instanceof User;
     }
 
     @SuppressWarnings("unchecked")

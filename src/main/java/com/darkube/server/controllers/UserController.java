@@ -8,10 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.darkube.server.types.DynamicObject;
 import com.darkube.server.types.LoginBody;
 import com.darkube.server.types.Message;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import com.darkube.server.models.User;
 import com.darkube.server.services.JwtService;
 import com.darkube.server.services.collections.UserService;
@@ -31,11 +36,22 @@ public class UserController {
         try {
             final Optional<User> user = userService.login(body);
             if (user.isPresent()) {
-                return user;
+                final String token = jwtService
+                        .generateToken(user.get());
+                try {
+                    DynamicObject object = new DynamicObject();
+                    object.put("user", user.get());
+                    object.put("token", token);
+                    return object.map();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return new Message("Something went wrong");
+                }
             }
             return new Message("User Not present");
         } catch (Exception e) {
-            return new Message(e.getMessage());
+            e.printStackTrace();
+            return new Message("Something went wrong");
         }
 
     }
@@ -57,12 +73,28 @@ public class UserController {
     public Optional<User> profile(@PathVariable String username) {
 
         Optional<User> user = userService.get(username);
-        if (user.isPresent()) {
-            final String token = jwtService
-                    .generateToken(user.get());
-            jwtService.verify(token, username);
-        }
         return user;
+
+    }
+
+    @GetMapping(value = "/api/user/secure", produces = "application/json")
+    public Object secure(
+            @RequestHeader(value = "darkube-x-auth", required = false) String token,
+            HttpServletRequest request) {
+
+        if (!jwtService.verify(token)) {
+            return new Message("Request not authorized");
+        }
+        DynamicObject object = new DynamicObject();
+        try {
+            object.put("user.message", "secure");
+            return object.map();
+        } catch (Exception e) {
+            String route = request.getRequestURI();
+            String method = request.getMethod();
+            String message = "Error - `Method: %s` `Route: %s`";
+            return new Message(String.format(message, method, route));
+        }
 
     }
 
