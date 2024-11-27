@@ -12,7 +12,6 @@ RUN --mount=type=secret,id=JWT_SECRET,dst=/etc/secrets/JWT_SECRET cp /etc/secret
 ENV list="PORT MONGODB JWT_SECRET"
 RUN echo $list
 RUN bash -c 'awk "{print FILENAME\"=\"\$0}" $list > .env'
-RUN cat .env
 
 RUN ./gradlew bootJar --no-daemon
 
