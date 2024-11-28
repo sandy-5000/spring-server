@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
 
 import com.darkube.server.types.DynamicObject;
 import com.darkube.server.types.LoginBody;
@@ -32,7 +33,8 @@ public class UserController {
     @Autowired
     JwtService jwtService;
 
-    @PostMapping(value = route + "/login", produces = "application/json")
+    @PostMapping(value = route
+            + "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public Object login(@RequestBody LoginBody body) {
 
         try {
@@ -56,7 +58,8 @@ public class UserController {
 
     }
 
-    @PostMapping(value = route + "/register", produces = "application/json")
+    @PostMapping(value = route
+            + "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public Object register(@RequestBody User user) {
 
         try {
@@ -69,7 +72,8 @@ public class UserController {
 
     }
 
-    @GetMapping(value = route + "/{username}", produces = "application/json")
+    @GetMapping(value = route
+            + "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<User> profile(@PathVariable String username) {
 
         Optional<User> user = userService.get(username);
@@ -77,7 +81,7 @@ public class UserController {
 
     }
 
-    @GetMapping(value = route + "secure", produces = "application/json")
+    @GetMapping(value = route + "secure", produces = MediaType.APPLICATION_JSON_VALUE)
     public Object secure(
             @RequestHeader(value = "darkube-x-auth", required = false) String token,
             HttpServletRequest request) {

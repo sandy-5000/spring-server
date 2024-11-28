@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.MediaType;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -18,14 +19,14 @@ public class MainController {
 
     final String route = "/api";
 
-    @GetMapping(value = route, produces = "application/json")
+    @GetMapping(value = route, produces = MediaType.APPLICATION_JSON_VALUE)
     public Message root() {
 
         return new Message("Server [Darkube]");
 
     }
 
-    @GetMapping(value = route + "/_____", produces = "application/json")
+    @GetMapping(value = route + "/_____", produces = MediaType.APPLICATION_JSON_VALUE)
     public HashMap<String, Object> _____(/* @RequestParam String param */) {
         try {
 
@@ -56,7 +57,8 @@ public class MainController {
 
     }
 
-    @RequestMapping(value = { route + "/**", "/**" }, produces = "application/json")
+    @RequestMapping(value = { route + "/**",
+            "/**" }, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Err notFound(HttpServletRequest request) {
         String route = request.getRequestURI();
@@ -66,11 +68,6 @@ public class MainController {
         }
         String method = request.getMethod();
         return new Err(String.format(message, method, route), 404);
-    }
-
-    @GetMapping(value = "/**", produces = "text/html")
-    public String view() {
-        return "<p style=\"text-align: center; margin-top: 100px\">Darkube</p>";
     }
 
 }
