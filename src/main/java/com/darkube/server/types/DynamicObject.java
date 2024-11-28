@@ -2,16 +2,17 @@ package com.darkube.server.types;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.darkube.server.models.User;
 
 public class DynamicObject {
 
-    private HashMap<String, Object> dynamicObject;
+    private LinkedHashMap<String, Object> dynamicObject;
 
     public DynamicObject() {
-        dynamicObject = new HashMap<>();
+        dynamicObject = new LinkedHashMap<>();
     }
 
     public boolean isValidType(Object value) {

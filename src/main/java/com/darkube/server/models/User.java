@@ -1,6 +1,7 @@
 package com.darkube.server.models;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Sort.Direction;
@@ -55,7 +56,7 @@ public class User {
     }
 
     public HashMap<String, Object> entries() {
-        HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> map = new LinkedHashMap<>();
         map.put("_id", get_id());
         map.put("username", getUsername());
         map.put("email", getEmail());

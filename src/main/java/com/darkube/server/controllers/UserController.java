@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.darkube.server.types.DynamicObject;
 import com.darkube.server.types.LoginBody;
-import com.darkube.server.types.Message;
+import com.darkube.server.types.Err;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -24,13 +24,15 @@ import com.darkube.server.services.collections.UserService;
 @RestController
 public class UserController {
 
+    final String route = "/api/user";
+
     @Autowired
     UserService userService;
 
     @Autowired
     JwtService jwtService;
 
-    @PostMapping(value = "/api/user/login", produces = "application/json")
+    @PostMapping(value = route + "/login", produces = "application/json")
     public Object login(@RequestBody LoginBody body) {
 
         try {
@@ -40,36 +42,34 @@ public class UserController {
                         .generateToken(user.get());
                 try {
                     DynamicObject object = new DynamicObject();
-                    object.put("user", user.get());
+                    object.put("user", user.get().entries());
                     object.put("token", token);
                     return object.map();
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    return new Message("Something went wrong");
+                    return new Err("Internal Server Error", 500);
                 }
             }
-            return new Message("User Not present");
+            return new Err("User Not Found", 404);
         } catch (Exception e) {
-            e.printStackTrace();
-            return new Message("Something went wrong");
+            return new Err("Internal Server Error", 500);
         }
 
     }
 
-    @PostMapping(value = "/api/user/register", produces = "application/json")
+    @PostMapping(value = route + "/register", produces = "application/json")
     public Object register(@RequestBody User user) {
 
         try {
             return userService.save(user);
         } catch (DataAccessException e) {
-            return new Message(e.getMessage());
+            return new Err("Error While creating user", 409);
         } catch (Exception e) {
-            return new Message(e.getMessage());
+            return new Err("Internal Server Error", 500);
         }
 
     }
 
-    @GetMapping(value = "/api/user/{username}", produces = "application/json")
+    @GetMapping(value = route + "/{username}", produces = "application/json")
     public Optional<User> profile(@PathVariable String username) {
 
         Optional<User> user = userService.get(username);
@@ -77,13 +77,13 @@ public class UserController {
 
     }
 
-    @GetMapping(value = "/api/user/secure", produces = "application/json")
+    @GetMapping(value = route + "secure", produces = "application/json")
     public Object secure(
             @RequestHeader(value = "darkube-x-auth", required = false) String token,
             HttpServletRequest request) {
 
         if (!jwtService.verify(token)) {
-            return new Message("Request not authorized");
+            return new Err("unauthorized", 401);
         }
         DynamicObject object = new DynamicObject();
         try {
@@ -93,7 +93,7 @@ public class UserController {
             String route = request.getRequestURI();
             String method = request.getMethod();
             String message = "Error - `Method: %s` `Route: %s`";
-            return new Message(String.format(message, method, route));
+            return new Err(String.format(message, method, route), 404);
         }
 
     }
