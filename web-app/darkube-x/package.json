@@ -1,0 +1,19 @@
+{
+  "name": "darkube-x",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "copy": "rm -rf ../../src/main/resources/static/* && cp -r dist/* ../../src/main/resources/static/",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.0.1"
+  }
+}
