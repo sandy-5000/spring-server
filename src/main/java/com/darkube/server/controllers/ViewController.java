@@ -36,7 +36,7 @@ public class ViewController {
     @GetMapping("/assets/**")
     public ResponseEntity<Resource> assets(HttpServletRequest request) {
         String route = request.getRequestURI();
-        Resource file = new ClassPathResource("static/" + route);
+        Resource file = new ClassPathResource("static" + route);
 
         String extension = getFileExtension(route);
         String mimeType = MIME_TYPES.getOrDefault(extension,
